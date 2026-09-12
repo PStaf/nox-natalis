@@ -877,9 +877,13 @@ function svgEl(tag,attrs,text){
   if(text!==undefined)e.textContent=text;return e;
 }
 function drawWheel(planets,aspects,axes){
-  wheelAsc=axes.asc;
+  /* Ориентация как в Sotis:
+     0° Овна = 9 часов, 0° Козерога = 12 часов,
+     0° Весов = 3 часа, 0° Рака = 6 часов.
+     ASC/MC показываются в своих реальных долготах и не вращают зодиак. */
+  wheelAsc=0;
   var svg=svgEl('svg',{viewBox:'-42 -42 724 724',role:'img','aria-labelledby':'wheel-title wheel-desc',class:'natal-wheel'});
-  svg.append(svgEl('title',{id:'wheel-title'},'Круг натальной карты'),svgEl('desc',{id:'wheel-desc'},'Двенадцать знаков и домов Плацидуса, ASC, MC, планеты, узлы, Хирон, Лилит, Селена и основные аспекты. Точные положения приведены в таблице под кругом.'));
+  svg.append(svgEl('title',{id:'wheel-title'},'Круг натальной карты'),svgEl('desc',{id:'wheel-desc'},'Двенадцать знаков в фиксированной ориентации Sotis, дома Плацидуса, ASC, MC, планеты, узлы, Хирон, Лилит, Селена и основные аспекты. Точные положения приведены в таблице под кругом.'));
   var add=function(t,a,v){var e=svgEl(t,a,v);svg.append(e);return e};
   var line=function(a,b,color,width,extra){return add('line',Object.assign({x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:color,'stroke-width':width},extra||{}))};
   add('circle',{cx:320,cy:320,r:308,fill:'#160c28',stroke:'#77608e','stroke-width':1});
