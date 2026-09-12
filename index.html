@@ -785,16 +785,88 @@ function degreeDMS(lon){
   if(sec===60){sec=0;m++}if(m===60){m=0;d++}if(d===30)d=0;
   return d+'° '+String(m).padStart(2,'0')+'′ '+String(sec).padStart(2,'0')+'″';
 }
-function sotisCheckHTML(planets,axes){
-  var rows=planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeDMS(p.lon)+(p.retro?' R':'')+'</td><td>'+p.house+'</td></tr>'}).join('');
-  var angles=[['ASC',axes.asc],['MC',axes.mc],['DSC',axes.dsc],['IC',axes.ic]];
-  var angleRows=angles.map(function(a){var sign=Math.floor(norm(a[1])/30);return '<tr><td>'+a[0]+'</td><td>'+SYM[sign]+' '+ZOD[sign]+'</td><td>'+degreeDMS(a[1])+'</td></tr>'}).join('');
-  var cuspRows=axes.cusps.map(function(c,i){var sign=Math.floor(norm(c)/30);return '<tr><td>'+romanHouse(i+1)+'</td><td>'+SYM[sign]+' '+ZOD[sign]+'</td><td>'+degreeDMS(c)+'</td></tr>'}).join('');
-  return '<details class="planet-reading"><summary><span class="reading-glyph">≡</span><span><strong>Сверка с Sotis</strong><small>Точные положения до секунд дуги</small></span><span class="expand">+</span></summary><div class="reading-content">'+
-    '<p class="chart-note">Этот блок предназначен только для технической сверки расчёта. Все значения — тропические долготы Swiss Ephemeris.</p>'+
-    '<div class="position-wrap"><table class="position-table"><caption>Объекты</caption><thead><tr><th>Объект</th><th>Знак</th><th>Точное положение</th><th>Дом</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    '<div class="position-wrap"><table class="position-table"><caption>Углы карты</caption><thead><tr><th>Точка</th><th>Знак</th><th>Точное положение</th></tr></thead><tbody>'+angleRows+'</tbody></table></div>'+
-    '<div class="position-wrap"><table class="position-table"><caption>Куспиды домов · Placidus</caption><thead><tr><th>Дом</th><th>Знак</th><th>Точное положение</th></tr></thead><tbody>'+cuspRows+'</tbody></table></div></div></details>';
+function arcsecDiff(a,b){
+  var d=Math.abs(signedAngle(norm(a)-norm(b)));
+  return Math.round(d*3600);
+}
+function diffLabel(sec){
+  var m=Math.floor(sec/60),s=sec%60;
+  return (m?m+'′ ':'')+s+'″';
+}
+function zodiacLon(sign,d,m,s){return sign*30+d+m/60+s/3600}
+function diagnosticSotisHTML(planets,axes,birthMeta,date){
+  /* Контрольный эталон Sotis:
+     29.12.1987 10:30, Сосновый Бор; 59°53′59″ N, 29°05′09″ E. */
+  var ref={
+    Sun:zodiacLon(9,7,2,12),
+    Moon:zodiacLon(1,0,29,20),
+    Mercury:zodiacLon(9,10,30,11),
+    Venus:zodiacLon(10,8,41,52),
+    Mars:zodiacLon(7,23,8,38),
+    Jupiter:zodiacLon(0,20,5,41),
+    Saturn:zodiacLon(8,25,9,8),
+    Uranus:zodiacLon(8,27,30,7),
+    Neptune:zodiacLon(9,7,41,3),
+    Pluto:zodiacLon(7,11,55,41)
+  };
+  var refCusps=[
+    zodiacLon(9,10,48,21),
+    zodiacLon(10,27,28,22),
+    zodiacLon(1,10,23,18),
+    zodiacLon(2,0,58,40),
+    zodiacLon(2,14,50,54),
+    zodiacLon(2,26,54,30),
+    zodiacLon(3,10,48,21),
+    zodiacLon(4,27,28,22),
+    zodiacLon(7,10,23,18),
+    zodiacLon(8,0,58,40),
+    zodiacLon(8,14,50,54),
+    zodiacLon(8,26,54,30)
+  ];
+  function lonText(lon){
+    var sign=Math.floor(norm(lon)/30);
+    return SYM[sign]+' '+ZOD[sign]+' '+degreeDMS(lon);
+  }
+  function diffClass(sec){return sec<=30?' style="color:var(--ok)"':sec<=120?' style="color:var(--warn)"':' style="color:var(--bad)"'}
+  var byId={};planets.forEach(function(p){byId[p.id]=p});
+  var ids=['Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+  var rows=ids.map(function(id){
+    var p=byId[id],r=ref[id],sec=p?arcsecDiff(p.lon,r):NaN;
+    return '<tr><td>'+(p?p.glyph+' '+p.name:id)+'</td><td>'+(p?lonText(p.lon):'—')+'</td><td>'+lonText(r)+'</td><td'+(Number.isFinite(sec)?diffClass(sec):'')+'>'+(Number.isFinite(sec)?diffLabel(sec):'—')+'</td></tr>';
+  }).join('');
+  var angleRows=[
+    ['ASC',axes.asc,refCusps[0]],
+    ['MC',axes.mc,refCusps[9]],
+    ['DSC',axes.dsc,refCusps[6]],
+    ['IC',axes.ic,refCusps[3]]
+  ].map(function(a){
+    var sec=arcsecDiff(a[1],a[2]);
+    return '<tr><td>'+a[0]+'</td><td>'+lonText(a[1])+'</td><td>'+lonText(a[2])+'</td><td'+diffClass(sec)+'>'+diffLabel(sec)+'</td></tr>';
+  }).join('');
+  var cuspRows=axes.cusps.map(function(c,i){
+    var sec=arcsecDiff(c,refCusps[i]);
+    return '<tr><td>'+romanHouse(i+1)+'</td><td>'+lonText(c)+'</td><td>'+lonText(refCusps[i])+'</td><td'+diffClass(sec)+'>'+diffLabel(sec)+'</td></tr>';
+  }).join('');
+  var jd=(+date/86400000)+2440587.5;
+  var utc=date.toISOString().replace('T',' ').replace('.000Z',' UTC');
+  var refLat=59+53/60+59/3600,refLon=29+5/60+9/3600;
+  var active=birthMeta&&birthMeta.date==='29.12.1987'&&birthMeta.time==='10:30'&&/Сосновый Бор/i.test(birthMeta.place||'');
+  return '<section class="card" style="margin-top:18px;border-color:rgba(232,200,122,.45)">'+
+    '<h2 style="font-size:22px">Техническая сверка с Sotis</h2>'+
+    '<p class="chart-note">'+(active?'Контрольные данные распознаны: 29.12.1987 · 10:30 · Сосновый Бор.':'Внимание: таблица Sotis ниже относится к контрольной карте 29.12.1987 · 10:30 · Сосновый Бор.')+'</p>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Входные данные NOX</caption><tbody>'+
+      '<tr><th>Местное время</th><td>'+(birthMeta?esc(birthMeta.date+' '+birthMeta.time):'—')+'</td></tr>'+
+      '<tr><th>Внутреннее UTC</th><td>'+esc(utc)+'</td></tr>'+
+      '<tr><th>Julian Day UT</th><td>'+jd.toFixed(8)+'</td></tr>'+
+      '<tr><th>Координаты NOX</th><td>'+Number(axes.latitude).toFixed(6)+'°, '+Number(axes.longitude).toFixed(6)+'°</td></tr>'+
+      '<tr><th>Координаты Sotis</th><td>'+refLat.toFixed(6)+'°, '+refLon.toFixed(6)+'°</td></tr>'+
+      '<tr><th>Разница координат</th><td>Δφ '+Math.abs(Number(axes.latitude)-refLat).toFixed(6)+'° · Δλ '+Math.abs(Number(axes.longitude)-refLon).toFixed(6)+'°</td></tr>'+
+    '</tbody></table></div>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Планеты · NOX ↔ Sotis</caption><thead><tr><th>Объект</th><th>NOX</th><th>Sotis</th><th>Δ</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Углы карты · NOX ↔ Sotis</caption><thead><tr><th>Точка</th><th>NOX</th><th>Sotis</th><th>Δ</th></tr></thead><tbody>'+angleRows+'</tbody></table></div>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Куспиды Placidus · NOX ↔ Sotis</caption><thead><tr><th>Дом</th><th>NOX</th><th>Sotis</th><th>Δ</th></tr></thead><tbody>'+cuspRows+'</tbody></table></div>'+
+    '<p class="chart-note">Δ показана как минимальная угловая разница. Зелёный ≤30″, жёлтый ≤2′, красный >2′. Этот блок временный и нужен только для калибровки расчёта.</p>'+
+  '</section>';
 }
 function romanHouse(n){return ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'][n-1]}
 var wheelAsc=0;
@@ -870,7 +942,7 @@ function renderNatal(name,date,offset,planets,axes,birthMeta){
   res.innerHTML='<div class="chart-heading"><span class="eyebrow">НЕБЕСНЫЙ ПОРТРЕТ</span><h3>'+esc(name)+'</h3><p class="chart-note">'+visibleBirth+'</p></div><div id="wheelMount"></div>'+
     '<div class="aspect-key">'+ASPECT_TYPES.map(function(a){return '<span style="color:'+a.color+'">'+a.symbol+' '+a.name+'</span>'}).join('')+'</div>'+
     '<p class="chart-note">Тропический зодиак · дома Плацидуса (Swiss Ephemeris). ASC = куспид I дома, MC = куспид X дома. Нажмите символ планеты, чтобы открыть трактовку. R — ретроградное движение.</p>'+
-    axesHTML(axes)+sotisCheckHTML(planets,axes)+'<div class="position-wrap"><table class="position-table"><caption>Положения небесных тел</caption><thead><tr><th>Небесное тело</th><th>Знак</th><th>Положение</th><th>Дом</th></tr></thead><tbody>'+planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <abbr title="Ретроградное движение">R</abbr>':'')+'</td><td>'+p.house+'</td></tr>'}).join('')+'</tbody></table></div>'+
+    axesHTML(axes)+diagnosticSotisHTML(planets,axes,birthMeta,date)+'<div class="position-wrap"><table class="position-table"><caption>Положения небесных тел</caption><thead><tr><th>Небесное тело</th><th>Знак</th><th>Положение</th><th>Дом</th></tr></thead><tbody>'+planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <abbr title="Ретроградное движение">R</abbr>':'')+'</td><td>'+p.house+'</td></tr>'}).join('')+'</tbody></table></div>'+
     '<h3 class="section-title">Ваши объекты в знаках</h3><p class="chart-note">Самостоятельные авторские трактовки каждого положения в знаке и каждом доме: психология, отношения, сильные стороны, сложности, реализация и практические ориентиры. Тексты предназначены для саморефлексии и не являются психологической диагностикой или финансовым прогнозом.</p>'+
     planets.map(function(p,i){return '<details class="planet-reading" id="reading-'+p.id+'"'+(i===0?' open':'')+'><summary><span class="reading-glyph" style="color:'+p.color+'">'+p.glyph+'</span><span><strong>'+p.name+' · '+ZOD[p.sign]+'</strong><small>'+p.role+' · '+p.house+' дом</small></span><span class="expand">+</span></summary><div class="reading-content">'+interpretation(p)+houseInterpretation(p)+'</div></details>'}).join('')+
     '<h3 class="section-title">Аспекты вашей карты</h3><p class="chart-note">Каждый аспект трактуется для конкретной пары объектов. Орбис — отклонение от точного угла. Пределы: соединение и оппозиция 8°, квадрат и трин 6°, секстиль 4°. Меньший орбис означает более точный аспект.</p>'+
