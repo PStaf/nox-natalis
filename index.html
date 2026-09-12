@@ -716,7 +716,12 @@ function swissJD(swe,date){
 function swissPosition(swe,jd,body){
   var flags=swe.SEFLG_SWIEPH|swe.SEFLG_SPEED;
   var pos=swe.calc_ut(jd,body,flags);
-  return {lon:norm(pos[0]),retro:Number(pos[3])<0,speed:Number(pos[3])};
+  var lon=Number(pos.longitude);
+  var speed=Number(pos.longitudeSpeed);
+  if(!Number.isFinite(lon)){
+    throw new Error('Swiss Ephemeris вернул некорректную долготу для объекта '+body);
+  }
+  return {lon:norm(lon),retro:Number.isFinite(speed)&&speed<0,speed:speed};
 }
 function planetPositions(swe,date){
   var jd=swissJD(swe,date),north=null;
