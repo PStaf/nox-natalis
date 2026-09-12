@@ -775,6 +775,23 @@ function axesHTML(axes){
 }
 
 function degreeLabel(lon){var m=Math.floor((norm(lon)%30)*60);return Math.floor(m/60)+'° '+String(m%60).padStart(2,'0')+'′'}
+function degreeDMS(lon){
+  var x=norm(lon)%30,d=Math.floor(x),mf=(x-d)*60,m=Math.floor(mf),sec=Math.round((mf-m)*60);
+  if(sec===60){sec=0;m++}if(m===60){m=0;d++}if(d===30)d=0;
+  return d+'° '+String(m).padStart(2,'0')+'′ '+String(sec).padStart(2,'0')+'″';
+}
+function sotisCheckHTML(planets,axes){
+  var rows=planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeDMS(p.lon)+(p.retro?' R':'')+'</td><td>'+p.house+'</td></tr>'}).join('');
+  var angles=[['ASC',axes.asc],['MC',axes.mc],['DSC',axes.dsc],['IC',axes.ic]];
+  var angleRows=angles.map(function(a){var sign=Math.floor(norm(a[1])/30);return '<tr><td>'+a[0]+'</td><td>'+SYM[sign]+' '+ZOD[sign]+'</td><td>'+degreeDMS(a[1])+'</td></tr>'}).join('');
+  var cuspRows=axes.cusps.map(function(c,i){var sign=Math.floor(norm(c)/30);return '<tr><td>'+romanHouse(i+1)+'</td><td>'+SYM[sign]+' '+ZOD[sign]+'</td><td>'+degreeDMS(c)+'</td></tr>'}).join('');
+  return '<details class="planet-reading"><summary><span class="reading-glyph">≡</span><span><strong>Сверка с Sotis</strong><small>Точные положения до секунд дуги</small></span><span class="expand">+</span></summary><div class="reading-content">'+
+    '<p class="chart-note">Этот блок предназначен только для технической сверки расчёта. Все значения — тропические долготы Swiss Ephemeris.</p>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Объекты</caption><thead><tr><th>Объект</th><th>Знак</th><th>Точное положение</th><th>Дом</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Углы карты</caption><thead><tr><th>Точка</th><th>Знак</th><th>Точное положение</th></tr></thead><tbody>'+angleRows+'</tbody></table></div>'+
+    '<div class="position-wrap"><table class="position-table"><caption>Куспиды домов · Placidus</caption><thead><tr><th>Дом</th><th>Знак</th><th>Точное положение</th></tr></thead><tbody>'+cuspRows+'</tbody></table></div></div></details>';
+}
+function romanHouse(n){return ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'][n-1]}
 var wheelAsc=0;
 function point(lon,r){var a=(180-lon+wheelAsc)*Math.PI/180;return {x:320+r*Math.cos(a),y:320+r*Math.sin(a)}}
 function svgEl(tag,attrs,text){
@@ -848,7 +865,7 @@ function renderNatal(name,date,offset,planets,axes,birthMeta){
   res.innerHTML='<div class="chart-heading"><span class="eyebrow">НЕБЕСНЫЙ ПОРТРЕТ</span><h3>'+esc(name)+'</h3><p class="chart-note">'+visibleBirth+'</p></div><div id="wheelMount"></div>'+
     '<div class="aspect-key">'+ASPECT_TYPES.map(function(a){return '<span style="color:'+a.color+'">'+a.symbol+' '+a.name+'</span>'}).join('')+'</div>'+
     '<p class="chart-note">Тропический зодиак · дома Плацидуса (Swiss Ephemeris). ASC = куспид I дома, MC = куспид X дома. Нажмите символ планеты, чтобы открыть трактовку. R — ретроградное движение.</p>'+
-    axesHTML(axes)+'<div class="position-wrap"><table class="position-table"><caption>Положения небесных тел</caption><thead><tr><th>Небесное тело</th><th>Знак</th><th>Положение</th><th>Дом</th></tr></thead><tbody>'+planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <abbr title="Ретроградное движение">R</abbr>':'')+'</td><td>'+p.house+'</td></tr>'}).join('')+'</tbody></table></div>'+
+    axesHTML(axes)+sotisCheckHTML(planets,axes)+'<div class="position-wrap"><table class="position-table"><caption>Положения небесных тел</caption><thead><tr><th>Небесное тело</th><th>Знак</th><th>Положение</th><th>Дом</th></tr></thead><tbody>'+planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <abbr title="Ретроградное движение">R</abbr>':'')+'</td><td>'+p.house+'</td></tr>'}).join('')+'</tbody></table></div>'+
     '<h3 class="section-title">Ваши объекты в знаках</h3><p class="chart-note">Самостоятельные авторские трактовки каждого положения в знаке и каждом доме: психология, отношения, сильные стороны, сложности, реализация и практические ориентиры. Тексты предназначены для саморефлексии и не являются психологической диагностикой или финансовым прогнозом.</p>'+
     planets.map(function(p,i){return '<details class="planet-reading" id="reading-'+p.id+'"'+(i===0?' open':'')+'><summary><span class="reading-glyph" style="color:'+p.color+'">'+p.glyph+'</span><span><strong>'+p.name+' · '+ZOD[p.sign]+'</strong><small>'+p.role+' · '+p.house+' дом</small></span><span class="expand">+</span></summary><div class="reading-content">'+interpretation(p)+houseInterpretation(p)+'</div></details>'}).join('')+
     '<h3 class="section-title">Аспекты вашей карты</h3><p class="chart-note">Каждый аспект трактуется для конкретной пары объектов. Орбис — отклонение от точного угла. Пределы: соединение и оппозиция 8°, квадрат и трин 6°, секстиль 4°. Меньший орбис означает более точный аспект.</p>'+
