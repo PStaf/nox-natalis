@@ -69,10 +69,29 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site
+        shell: bash
+        run: |
+          mkdir -p dist/vendor
+
+          cp index.html dist/
+          cp interpretations.json dist/
+          cp swisseph-runtime.js dist/
+
+          cp vendor/swisseph.js dist/vendor/
+          cp vendor/swisseph.wasm dist/vendor/
+          cp vendor/AGPL-3.0.txt dist/vendor/
+          cp vendor/SWISSEPH-LICENSE.txt dist/vendor/
+
+          cp LICENSE.md dist/
+          cp THIRD_PARTY_NOTICES.md dist/
+          cp SOURCE.md dist/
+
+          touch dist/.nojekyll
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
-
+          path: dist
       - name: Deploy GitHub Pages
         uses: actions/deploy-pages@v4
