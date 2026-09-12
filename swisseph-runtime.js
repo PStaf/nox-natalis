@@ -1,7 +1,7 @@
 /*
  * Minimal browser bridge for Swiss Ephemeris.
- * The generated ./vendor/swisseph.js and ./vendor/swisseph.wasm are built by
- * GitHub Actions directly from https://github.com/aloistr/swisseph.
+ * The generated ./vendor/swisseph.js/.wasm/.data are built by GitHub Actions
+ * directly from the official Astrodienst Swiss Ephemeris sources and data.
  */
 import createModule from './vendor/swisseph.js';
 
@@ -17,17 +17,25 @@ export async function createSwissEph(){
   });
 
   const malloc = Module._malloc, free = Module._free;
+  const cInit = Module.cwrap('bridge_init',null,[]);
+  const cLastError = Module.cwrap('bridge_last_error','string',[]);
   const cJulday = Module.cwrap('swe_julday','number',['number','number','number','number','number']);
   const cCalc = Module.cwrap('bridge_calc_ut','number',['number','number','number','number']);
   const cHouses = Module.cwrap('bridge_houses','number',['number','number','number','number','number','number']);
   const cClose = Module.cwrap('swe_close',null,[]);
   const getValue = Module.getValue;
 
+  /* Point Swiss Ephemeris at the Emscripten virtual filesystem. */
+  cInit();
+
   function calc_ut(jd, body, flags){
     const ptr=malloc(6*8);
     try{
       const rc=cCalc(jd,body,flags,ptr);
-      if(rc<0) throw new Error('Swiss Ephemeris: ошибка расчёта объекта '+body);
+      if(rc<0){
+        const detail=cLastError();
+        throw new Error(detail || ('Swiss Ephemeris: ошибка расчёта объекта '+body));
+      }
       const a=Array.from({length:6},(_,i)=>getValue(ptr+i*8,'double'));
       return {longitude:a[0],latitude:a[1],distance:a[2],
               longitudeSpeed:a[3],latitudeSpeed:a[4],distanceSpeed:a[5],
