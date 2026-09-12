@@ -57,7 +57,7 @@ jobs:
             -sENVIRONMENT=web \
             -sALLOW_MEMORY_GROWTH=1 \
             -sEXPORTED_FUNCTIONS='["_malloc","_free","_swe_julday","_swe_close","_bridge_calc_ut","_bridge_houses"]' \
-            -sEXPORTED_RUNTIME_METHODS='["cwrap"]' \
+            -sEXPORTED_RUNTIME_METHODS='["cwrap","getValue"]' \
             -o vendor/swisseph.js
 
       - name: Copy Swiss Ephemeris licenses
