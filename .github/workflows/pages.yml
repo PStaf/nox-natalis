@@ -1,8 +1,9 @@
- name: Build Swiss Ephemeris and deploy Pages
+name: Build Swiss Ephemeris and deploy Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -17,8 +18,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout website
+        uses: actions/checkout@v4
 
       - name: Checkout official Swiss Ephemeris
         uses: actions/checkout@v4
@@ -33,10 +36,11 @@ jobs:
           version: "4.0.13"
           actions-cache-folder: emsdk-cache
 
-      - name: Build official Swiss Ephemeris WASM
+      - name: Build Swiss Ephemeris WASM
         shell: bash
         run: |
           mkdir -p vendor
+
           emcc bridge.c \
             upstream/swisseph/sweph.c \
             upstream/swisseph/swephlib.c \
@@ -54,16 +58,19 @@ jobs:
             -sEXPORTED_RUNTIME_METHODS='["cwrap"]' \
             -o vendor/swisseph.js
 
-      - name: Copy AGPL license from upstream
+      - name: Copy Swiss Ephemeris licenses
+        shell: bash
         run: |
           cp upstream/swisseph/agpl-3.0.txt vendor/AGPL-3.0.txt
           cp upstream/swisseph/LICENSE vendor/SWISSEPH-LICENSE.txt
 
-      - uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-      - id: deployment
+      - name: Deploy GitHub Pages
         uses: actions/deploy-pages@v4
