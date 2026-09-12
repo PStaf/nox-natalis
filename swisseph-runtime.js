@@ -21,13 +21,14 @@ export async function createSwissEph(){
   const cCalc = Module.cwrap('bridge_calc_ut','number',['number','number','number','number']);
   const cHouses = Module.cwrap('bridge_houses','number',['number','number','number','number','number','number']);
   const cClose = Module.cwrap('swe_close',null,[]);
+  const getValue = Module.getValue;
 
   function calc_ut(jd, body, flags){
     const ptr=malloc(6*8);
     try{
       const rc=cCalc(jd,body,flags,ptr);
       if(rc<0) throw new Error('Swiss Ephemeris: ошибка расчёта объекта '+body);
-      const a=Array.from(Module.HEAPF64.subarray(ptr/8,ptr/8+6));
+      const a=Array.from({length:6},(_,i)=>getValue(ptr+i*8,'double'));
       return {longitude:a[0],latitude:a[1],distance:a[2],
               longitudeSpeed:a[3],latitudeSpeed:a[4],distanceSpeed:a[5],
               flags:rc};
@@ -39,8 +40,8 @@ export async function createSwissEph(){
     try{
       const rc=cHouses(jd,lat,lon,system.charCodeAt(0),cuspPtr,ascmcPtr);
       if(rc<0) throw new Error('Система домов Плацидуса не определена для этой широты');
-      const raw=Array.from(Module.HEAPF64.subarray(cuspPtr/8,cuspPtr/8+13));
-      const a=Array.from(Module.HEAPF64.subarray(ascmcPtr/8,ascmcPtr/8+10));
+      const raw=Array.from({length:13},(_,i)=>getValue(cuspPtr+i*8,'double'));
+      const a=Array.from({length:10},(_,i)=>getValue(ascmcPtr+i*8,'double'));
       return {cusps:raw.slice(1,13),ascmc:a,ascendant:a[0],midheaven:a[1]};
     } finally { free(cuspPtr); free(ascmcPtr); }
   }
