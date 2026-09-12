@@ -56,7 +56,11 @@ jobs:
             -sEXPORT_ES6=1 \
             -sENVIRONMENT=web \
             -sALLOW_MEMORY_GROWTH=1 \
-            -sEXPORTED_FUNCTIONS='["_malloc","_free","_swe_julday","_swe_close","_bridge_calc_ut","_bridge_houses"]' \
+            --preload-file upstream/swisseph/ephe/sepl_18.se1@/ephe/sepl_18.se1 \
+            --preload-file upstream/swisseph/ephe/semo_18.se1@/ephe/semo_18.se1 \
+            --preload-file upstream/swisseph/ephe/seas_18.se1@/ephe/seas_18.se1 \
+            --preload-file upstream/swisseph/ephe/seorbel.txt@/ephe/seorbel.txt \
+            -sEXPORTED_FUNCTIONS='["_malloc","_free","_swe_julday","_swe_close","_bridge_init","_bridge_last_error","_bridge_calc_ut","_bridge_houses"]' \
             -sEXPORTED_RUNTIME_METHODS='["cwrap","getValue"]' \
             -o vendor/swisseph.js
 
@@ -80,6 +84,7 @@ jobs:
 
           cp vendor/swisseph.js dist/vendor/
           cp vendor/swisseph.wasm dist/vendor/
+          cp vendor/swisseph.data dist/vendor/
           cp vendor/AGPL-3.0.txt dist/vendor/
           cp vendor/SWISSEPH-LICENSE.txt dist/vendor/
 
