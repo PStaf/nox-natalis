@@ -196,6 +196,164 @@ footer{text-align:center;color:#6b5a8a;font-size:11px;padding:24px 0 0}
 .birth-advanced summary{font-size:12px;color:var(--dim);cursor:pointer}.manual-check{display:flex;gap:10px;font-size:12px;margin-bottom:16px;align-items:center}
 .birth-advanced input:disabled{opacity:.6}.field select{width:100%;padding:12px;border:1px solid var(--accent);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:13px}
 [hidden]{display:none!important}
+
+/* ============ NOX NATALIS · VISUAL V2 ============ */
+:root{
+  --nox-bg:#070815;
+  --nox-panel:#0d1022;
+  --nox-panel2:#11142a;
+  --nox-line:rgba(146,137,222,.23);
+  --nox-gold:#f1c66c;
+  --nox-violet:#8e55f4;
+  --nox-violet2:#b170ff;
+  --nox-soft:#aaa8c5;
+}
+body{
+  background:
+    radial-gradient(circle at 18% 12%,rgba(76,65,160,.18),transparent 28rem),
+    radial-gradient(circle at 82% 15%,rgba(42,74,157,.12),transparent 32rem),
+    linear-gradient(180deg,#070815 0%,#09091a 55%,#070815 100%);
+}
+.glow{opacity:.35;width:1000px;height:650px}
+.wrap{max-width:1280px;padding:0 28px 70px}
+header{
+  padding:28px 4px 22px;
+  display:flex;align-items:center;justify-content:space-between;
+  text-align:left;border-bottom:1px solid rgba(255,255,255,.055);margin-bottom:22px
+}
+header .crest{display:none}
+header h1{
+  font-size:31px;letter-spacing:5px;text-transform:uppercase;
+  background:none;color:#f6f2fb;-webkit-text-fill-color:#f6f2fb
+}
+header p{margin-top:2px;text-transform:uppercase;letter-spacing:2.2px;font-size:9px;color:#8f8ba9}
+.tabs{
+  max-width:620px;margin:0 auto 26px;background:rgba(13,16,34,.86);
+  backdrop-filter:blur(16px);border-color:rgba(255,255,255,.07)
+}
+.card{
+  background:linear-gradient(145deg,rgba(16,19,39,.97),rgba(10,11,28,.97));
+  border:1px solid rgba(145,132,211,.18);box-shadow:0 22px 60px rgba(0,0,0,.23)
+}
+#panel-natal>.card{padding:28px 30px}
+#results{margin-top:30px}
+.chart-heading{
+  text-align:left;margin:0 0 8px;padding:4px 4px 8px
+}
+.chart-heading .eyebrow{display:none}
+.chart-heading h3{
+  font-size:58px;line-height:1;color:#f5f1fa;font-weight:500;margin:0 0 4px
+}
+.chart-heading .chart-note{font-size:15px;margin:0;color:#d0cde0}
+.nox-result-shell{
+  border:1px solid rgba(145,132,211,.2);
+  border-radius:22px;padding:28px;
+  background:linear-gradient(160deg,rgba(13,16,34,.98),rgba(8,10,24,.98));
+  box-shadow:0 30px 90px rgba(0,0,0,.34)
+}
+.nox-hero{
+  display:grid;grid-template-columns:minmax(0,1.45fr) minmax(330px,.8fr);
+  gap:26px;align-items:start;margin-top:14px
+}
+.nox-wheel-panel{min-width:0}
+#wheelMount{
+  width:100%;max-width:760px;margin:0 auto
+}
+.natal-wheel{width:100%;max-width:760px;margin:0 auto;filter:drop-shadow(0 18px 38px #02030a)}
+.aspect-key{
+  justify-content:flex-start;gap:10px 22px;font-size:12px;
+  padding:10px 8px 0
+}
+.nox-side{
+  background:rgba(6,8,21,.62);border:1px solid rgba(145,132,211,.22);
+  border-radius:18px;padding:18px 18px 14px;position:sticky;top:18px
+}
+.nox-side h3{
+  font-family:'Cormorant Garamond',serif;color:var(--nox-gold);
+  font-size:27px;font-weight:600;margin:0 0 10px
+}
+.nox-side .position-wrap{margin:0;border:0;border-radius:0;overflow:visible}
+.nox-side .position-table{font-size:13px;white-space:normal}
+.nox-side .position-table th{font-size:10px;letter-spacing:.03em}
+.nox-side .position-table td,.nox-side .position-table th{
+  padding:10px 5px;border-bottom:1px solid rgba(145,132,211,.14)
+}
+.nox-side .position-table td:first-child{font-weight:600}
+.nox-side .planet-cell{display:flex;align-items:center;gap:8px}
+.nox-side .planet-cell .pglyph{font-size:21px;width:22px;text-align:center}
+.nox-retro{color:var(--gold);font-size:10px;margin-left:3px}
+.nox-note{font-size:11px;color:#86839e;margin-top:14px;line-height:1.55}
+.nox-angles{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0
+}
+.nox-angle-card{
+  border:1px solid rgba(145,132,211,.22);border-radius:16px;
+  padding:18px;background:linear-gradient(145deg,rgba(12,14,31,.96),rgba(8,9,22,.96));
+  min-height:132px
+}
+.nox-angle-card b{
+  display:block;font-family:'Cormorant Garamond',serif;font-size:27px;color:var(--nox-gold)
+}
+.nox-angle-card small{display:block;color:#8d89a7;font-size:11px;margin:3px 0 13px}
+.nox-angle-card .angle-sign{display:flex;gap:12px;align-items:center}
+.nox-angle-card .angle-glyph{font-family:Georgia,serif;font-size:42px;color:#a86fff}
+.nox-angle-card .angle-value{font-size:15px;line-height:1.45}
+.nox-angle-card .angle-value strong{display:block;color:#fff;font-size:21px}
+.nox-summary-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 22px
+}
+.nox-summary-card{
+  border:1px solid rgba(145,132,211,.2);border-radius:16px;padding:18px;
+  background:rgba(8,10,24,.8)
+}
+.nox-summary-card h4{font-size:15px;color:#f2eef8;margin:0 0 15px}
+.nox-stat{display:grid;grid-template-columns:1fr auto;gap:7px 12px;align-items:center;margin:10px 0}
+.nox-stat span{font-size:12px;color:#b8b4cc}
+.nox-stat b{font-size:11px;color:#dcd7ea}
+.nox-bar{grid-column:1/-1;height:7px;border-radius:999px;background:#222641;overflow:hidden}
+.nox-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7651e8,#c05df4)}
+.nox-info{
+  border:1px solid rgba(145,132,211,.18);border-radius:14px;padding:14px 16px;
+  color:#aaa6c1;font-size:12px;line-height:1.65;margin-bottom:24px;background:rgba(8,10,24,.58)
+}
+.nox-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:-54px;margin-bottom:18px}
+.nox-action{
+  min-width:auto;width:auto;padding:10px 14px;background:#15172d;color:#ddd8ed;
+  border:1px solid rgba(145,132,211,.2);box-shadow:none
+}
+.nox-action.primary{background:linear-gradient(135deg,#6637d6,#9256f2);color:#fff}
+.nox-reading-wrap{max-width:900px;margin:0 auto}
+.nox-reading-wrap .section-title{font-size:31px}
+.nox-reading-wrap .planet-reading,.nox-reading-wrap .aspect-reading{background:rgba(9,10,24,.8)}
+/* production view: hide calibration block but keep code available */
+#results .sotis-diagnostic{display:none!important}
+@media(max-width:980px){
+  .wrap{max-width:820px}
+  .nox-hero{grid-template-columns:1fr}
+  .nox-side{position:static}
+  .nox-angles{grid-template-columns:repeat(2,1fr)}
+  .nox-summary-grid{grid-template-columns:1fr}
+  .nox-actions{margin:0 0 16px;justify-content:flex-start}
+}
+@media(max-width:620px){
+  .wrap{padding:0 10px 40px}
+  header{padding:22px 4px 16px}
+  header h1{font-size:24px;letter-spacing:3px}
+  header p{display:none}
+  #panel-natal>.card{padding:18px 12px}
+  .nox-result-shell{padding:14px 10px;border-radius:16px}
+  .chart-heading h3{font-size:42px}
+  .chart-heading .chart-note{font-size:12px}
+  .nox-angles{grid-template-columns:1fr 1fr;gap:8px}
+  .nox-angle-card{padding:12px;min-height:110px}
+  .nox-angle-card .angle-glyph{font-size:34px}
+  .nox-angle-card .angle-value strong{font-size:17px}
+  .nox-side{padding:12px}
+  .nox-side .position-table{font-size:11px}
+  .nox-side .position-table td,.nox-side .position-table th{padding:8px 3px}
+  .aspect-key{font-size:10px;gap:7px 10px}
+}
+
 </style>
   <meta property="og:image" content="https://bolt.new/static/og_default.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -207,8 +365,8 @@ footer{text-align:center;color:#6b5a8a;font-size:11px;padding:24px 0 0}
 <div class="wrap">
   <header>
     <div class="crest">☾</div>
-    <h1>Астролог</h1>
-    <p>Натальная карта · Таро дня · Лунный календарь</p>
+    <h1>NOX NATALIS</h1>
+    <p>Астрология, которая работает</p>
   </header>
 
   <div class="tabs">
@@ -851,7 +1009,7 @@ function diagnosticSotisHTML(planets,axes,birthMeta,date){
   var utc=date.toISOString().replace('T',' ').replace('.000Z',' UTC');
   var refLat=59+53/60+59/3600,refLon=29+5/60+9/3600;
   var active=birthMeta&&birthMeta.date==='29.12.1987'&&birthMeta.time==='10:30'&&/Сосновый Бор/i.test(birthMeta.place||'');
-  return '<section class="card" style="margin-top:18px;border-color:rgba(232,200,122,.45)">'+
+  return '<section class="card sotis-diagnostic" style="margin-top:18px;border-color:rgba(232,200,122,.45)">'+
     '<h2 style="font-size:22px">Техническая сверка с Sotis</h2>'+
     '<p class="chart-note">'+(active?'Контрольные данные распознаны: 29.12.1987 · 10:30 · Сосновый Бор.':'Внимание: таблица Sotis ниже относится к контрольной карте 29.12.1987 · 10:30 · Сосновый Бор.')+'</p>'+
     '<div class="position-wrap"><table class="position-table"><caption>Входные данные NOX</caption><tbody>'+
@@ -892,7 +1050,7 @@ function drawWheel(planets,aspects,axes){
     var a=point(i*30,300),b=point((i+1)*30,300),c=point((i+1)*30,255),d=point(i*30,255);
     add('path',{d:'M '+a.x+' '+a.y+' A 300 300 0 0 0 '+b.x+' '+b.y+' L '+c.x+' '+c.y+' A 255 255 0 0 1 '+d.x+' '+d.y+' Z',fill:colors[i%4],'fill-opacity':'.10',stroke:'#705784','stroke-width':'.6'});
     var label=point(i*30+15,278);
-    add('text',{x:label.x,y:label.y+9,'text-anchor':'middle',fill:colors[i%4],'font-size':29,'font-family':'Georgia,serif'},SYM[i]);
+    add('text',{x:label.x,y:label.y+9,'text-anchor':'middle',fill:colors[i%4],'font-size':31,'font-family':'Georgia,serif','font-weight':600},SYM[i]);
   }
   for(var g=0;g<360;g++)line(point(g,253),point(g,g%30===0?237:g%5===0?242:247),'#9582aa',g%30===0?1.5:.6);
   [235,179,153].forEach(function(r){add('circle',{cx:320,cy:320,r:r,fill:'none',stroke:'#5d476f','stroke-width':'.8'})});
@@ -900,7 +1058,7 @@ function drawWheel(planets,aspects,axes){
     line(point(c,154),point(c,235),'#9b83b6',.7,{'stroke-opacity':'.5'});
     var next=axes.cusps[(i+1)%12],span=norm(next-c),mid=norm(c+span/2);
     var h=point(mid,166);
-    add('text',{x:h.x,y:h.y+4,fill:'#bcaccd','font-size':12,'text-anchor':'middle'},String(i+1));
+    add('text',{x:h.x,y:h.y+4,fill:'#bcaccd','font-size':14,'font-weight':600,'text-anchor':'middle'},String(i+1));
   });
   [['ASC',axes.asc],['DSC',axes.dsc],['MC',axes.mc],['IC',axes.ic]].forEach(function(item){
     line(point(item[1],153),point(item[1],310),'#e8c87a',item[0]==='ASC'?1.7:1,{'stroke-dasharray':item[0]==='MC'||item[0]==='IC'?'4 4':'none','stroke-opacity':'.75'});
@@ -927,13 +1085,65 @@ function drawWheel(planets,aspects,axes){
     line(anchor,point(label.angle,220),p.color,.8,{'stroke-opacity':'.7'});
     add('circle',{cx:point(p.lon,150).x,cy:point(p.lon,150).y,r:2.6,fill:p.color});
     var group=add('g',{class:'planet-mark',tabindex:0,role:'button','aria-label':p.name+' '+ZOD[p.sign]+' '+degreeLabel(p.lon)});
-    group.append(svgEl('circle',{cx:pos.x,cy:pos.y,r:17,fill:'#211335',stroke:p.color,'stroke-width':'.8'}),svgEl('text',{x:pos.x,y:pos.y+7,'text-anchor':'middle',fill:p.color,'font-size':23,'font-family':'Georgia,serif'},p.glyph),svgEl('title',{},p.name+' · '+ZOD[p.sign]+' '+degreeLabel(p.lon)+(p.retro?' · ретроградное движение':'')));
+    group.append(
+      svgEl('circle',{cx:pos.x,cy:pos.y,r:18,fill:'#0f1227',stroke:p.color,'stroke-width':1}),
+      svgEl('text',{x:pos.x,y:pos.y+5,'text-anchor':'middle',fill:p.color,'font-size':22,'font-family':'Georgia,serif'},p.glyph),
+      svgEl('text',{x:pos.x,y:pos.y+27,'text-anchor':'middle',fill:'#ddd8ea','font-size':9,'font-family':'Manrope,sans-serif'},degreeLabel(p.lon)+(p.retro?' R':'')),
+      svgEl('title',{},p.name+' · '+ZOD[p.sign]+' '+degreeLabel(p.lon)+(p.retro?' · ретроградное движение':''))
+    );
     function openReading(){var target=document.getElementById('reading-'+p.id);target.open=true;target.scrollIntoView({behavior:'smooth',block:'start'});target.querySelector('summary').focus()}
     group.addEventListener('click',openReading);
     group.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openReading()}});
   });
   add('circle',{cx:320,cy:320,r:3,fill:'#e8c87a'});
   return svg;
+}
+
+
+function noxAngleCards(axes){
+  var data=[
+    ['ASC','Асцендент',axes.asc],
+    ['MC','Середина неба',axes.mc],
+    ['DSC','Десцендент',axes.dsc],
+    ['IC','Основание неба',axes.ic]
+  ];
+  return '<div class="nox-angles">'+data.map(function(a){
+    var sign=Math.floor(norm(a[2])/30);
+    return '<div class="nox-angle-card"><b>'+a[0]+'</b><small>'+a[1]+'</small><div class="angle-sign"><span class="angle-glyph">'+SYM[sign]+'</span><span class="angle-value">'+ZOD[sign]+'<strong>'+degreeLabel(a[2])+'</strong></span></div></div>';
+  }).join('')+'</div>';
+}
+function noxPositionsTable(planets){
+  return '<div class="position-wrap"><table class="position-table"><thead><tr><th>Планета</th><th>Знак</th><th>Градус</th><th>Дом</th></tr></thead><tbody>'+
+  planets.map(function(p){
+    return '<tr><td><span class="planet-cell" style="color:'+p.color+'"><span class="pglyph">'+p.glyph+'</span>'+p.name+'</span></td>'+
+      '<td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <span class="nox-retro">R</span>':'')+'</td><td>'+p.house+'</td></tr>';
+  }).join('')+'</tbody></table></div>';
+}
+function noxSummary(planets){
+  var elements=[
+    {name:'Огонь',signs:[0,4,8]},
+    {name:'Земля',signs:[1,5,9]},
+    {name:'Воздух',signs:[2,6,10]},
+    {name:'Вода',signs:[3,7,11]}
+  ];
+  var modes=[
+    {name:'Кардинальные',signs:[0,3,6,9]},
+    {name:'Фиксированные',signs:[1,4,7,10]},
+    {name:'Мутабельные',signs:[2,5,8,11]}
+  ];
+  var base=planets.filter(function(p){return ['Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'].indexOf(p.id)>=0});
+  function card(title,arr){
+    return '<div class="nox-summary-card"><h4>'+title+'</h4>'+arr.map(function(x){
+      var n=base.filter(function(p){return x.signs.indexOf(p.sign)>=0}).length,pct=Math.round(n/base.length*100);
+      return '<div class="nox-stat"><span>'+x.name+'</span><b>'+n+' · '+pct+'%</b><div class="nox-bar"><i style="width:'+pct+'%"></i></div></div>';
+    }).join('')+'</div>';
+  }
+  var yin=base.filter(function(p){return [1,3,5,7,9,11].indexOf(p.sign)>=0}).length;
+  var yang=base.length-yin,yp=Math.round(yang/base.length*100),ip=100-yp;
+  var balance='<div class="nox-summary-card"><h4>Баланс</h4>'+
+    '<div class="nox-stat"><span>Ян</span><b>'+yang+' · '+yp+'%</b><div class="nox-bar"><i style="width:'+yp+'%"></i></div></div>'+
+    '<div class="nox-stat"><span>Инь</span><b>'+yin+' · '+ip+'%</b><div class="nox-bar"><i style="width:'+ip+'%"></i></div></div></div>';
+  return '<div class="nox-summary-grid">'+card('Стихии',elements)+card('Качества',modes)+balance+'</div>';
 }
 
 function renderNatal(name,date,offset,planets,axes,birthMeta){
@@ -943,15 +1153,31 @@ function renderNatal(name,date,offset,planets,axes,birthMeta){
   if(birthMeta){
     visibleBirth=esc(birthMeta.date)+' · '+esc(birthMeta.time)+(birthMeta.place?' · '+esc(birthMeta.place):'');
   }
-  res.innerHTML='<div class="chart-heading"><span class="eyebrow">НЕБЕСНЫЙ ПОРТРЕТ</span><h3>'+esc(name)+'</h3><p class="chart-note">'+visibleBirth+'</p></div><div id="wheelMount"></div>'+
-    '<div class="aspect-key">'+ASPECT_TYPES.map(function(a){return '<span style="color:'+a.color+'">'+a.symbol+' '+a.name+'</span>'}).join('')+'</div>'+
-    '<p class="chart-note">Тропический зодиак · дома Плацидуса (Swiss Ephemeris). ASC = куспид I дома, MC = куспид X дома. Нажмите символ планеты, чтобы открыть трактовку. R — ретроградное движение.</p>'+
-    axesHTML(axes)+diagnosticSotisHTML(planets,axes,birthMeta,date)+'<div class="position-wrap"><table class="position-table"><caption>Положения небесных тел</caption><thead><tr><th>Небесное тело</th><th>Знак</th><th>Положение</th><th>Дом</th></tr></thead><tbody>'+planets.map(function(p){return '<tr><td style="color:'+p.color+'">'+p.glyph+' '+p.name+'</td><td>'+SYM[p.sign]+' '+ZOD[p.sign]+'</td><td>'+degreeLabel(p.lon)+(p.retro?' <abbr title="Ретроградное движение">R</abbr>':'')+'</td><td>'+p.house+'</td></tr>'}).join('')+'</tbody></table></div>'+
-    '<h3 class="section-title">Ваши объекты в знаках</h3><p class="chart-note">Самостоятельные авторские трактовки каждого положения в знаке и каждом доме: психология, отношения, сильные стороны, сложности, реализация и практические ориентиры. Тексты предназначены для саморефлексии и не являются психологической диагностикой или финансовым прогнозом.</p>'+
-    planets.map(function(p,i){return '<details class="planet-reading" id="reading-'+p.id+'"'+(i===0?' open':'')+'><summary><span class="reading-glyph" style="color:'+p.color+'">'+p.glyph+'</span><span><strong>'+p.name+' · '+ZOD[p.sign]+'</strong><small>'+p.role+' · '+p.house+' дом</small></span><span class="expand">+</span></summary><div class="reading-content">'+interpretation(p)+houseInterpretation(p)+'</div></details>'}).join('')+
-    '<h3 class="section-title">Аспекты вашей карты</h3><p class="chart-note">Каждый аспект трактуется для конкретной пары объектов. Орбис — отклонение от точного угла. Пределы: соединение и оппозиция 8°, квадрат и трин 6°, секстиль 4°. Меньший орбис означает более точный аспект.</p>'+
-    (aspects.length?aspects.map(function(a){return '<details class="aspect-reading"><summary><span style="color:'+a.type.color+'">'+a.type.symbol+'</span> '+planets[a.a].name+' — '+planets[a.b].name+'<small>'+a.type.name+' · орбис '+a.orb.toFixed(2)+'°</small></summary>'+aspectInterpretation(a,planets)+'</details>'}).join(''):'<p class="chart-note">Основных аспектов в заданных орбисах не найдено.</p>')+
-    '<p class="chart-note">Положения планет, истинного лунного узла, Хирона, средней Лилит и White Moon/Селены, а также куспиды Плацидуса рассчитаны Swiss Ephemeris. Исторический часовой пояс и UTC используются только внутри расчёта. Лилит здесь — средний лунный апогей; Селена — модель SE_WHITE_MOON Swiss Ephemeris.</p>';
+  res.innerHTML=
+    '<section class="nox-result-shell">'+
+      '<div class="chart-heading"><h3>'+esc(name)+'</h3><p class="chart-note">'+visibleBirth+'</p></div>'+
+      '<div class="nox-actions">'+
+        '<button class="btn nox-action primary" type="button" onclick="document.getElementById(\'panel-natal\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">✎ Изменить данные</button>'+
+        '<button class="btn nox-action" type="button" onclick="window.print()">↓</button>'+
+        '<button class="btn nox-action" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href)">↗</button>'+
+      '</div>'+
+      '<div class="nox-hero">'+
+        '<div class="nox-wheel-panel"><div id="wheelMount"></div>'+
+          '<div class="aspect-key">'+ASPECT_TYPES.map(function(a){return '<span style="color:'+a.color+'">'+a.symbol+' '+a.name+'</span>'}).join('')+'</div>'+
+        '</div>'+
+        '<aside class="nox-side"><h3>Положения планет</h3>'+noxPositionsTable(planets)+
+          '<p class="nox-note">R — ретроградное движение. Положение и дома рассчитаны Swiss Ephemeris.</p></aside>'+
+      '</div>'+
+      noxAngleCards(axes)+
+      noxSummary(planets)+
+      '<div class="nox-info">ⓘ Тропический зодиак · Дома: Плацидус (Swiss Ephemeris). Положения планет, домов и углов карты рассчитываются по введённым дате, времени и месту рождения.</div>'+
+    '</section>'+
+    '<div class="nox-reading-wrap">'+
+      '<h3 class="section-title">Ваши объекты в знаках</h3><p class="chart-note">Персональные трактовки положений в знаках и домах: психология, отношения, сильные стороны, сложности, реализация и практические ориентиры.</p>'+
+      planets.map(function(p,i){return '<details class="planet-reading" id="reading-'+p.id+'"'+(i===0?' open':'')+'><summary><span class="reading-glyph" style="color:'+p.color+'">'+p.glyph+'</span><span><strong>'+p.name+' · '+ZOD[p.sign]+'</strong><small>'+p.role+' · '+p.house+' дом</small></span><span class="expand">+</span></summary><div class="reading-content">'+interpretation(p)+houseInterpretation(p)+'</div></details>'}).join('')+
+      '<h3 class="section-title">Аспекты вашей карты</h3><p class="chart-note">Интерпретации конкретных пар объектов. Орбис показывает отклонение от точного аспекта.</p>'+
+      (aspects.length?aspects.map(function(a){return '<details class="aspect-reading"><summary><span style="color:'+a.type.color+'">'+a.type.symbol+'</span> '+planets[a.a].name+' — '+planets[a.b].name+'<small>'+a.type.name+' · орбис '+a.orb.toFixed(2)+'°</small></summary>'+aspectInterpretation(a,planets)+'</details>'}).join(''):'<p class="chart-note">Основных аспектов в заданных орбисах не найдено.</p>')+
+    '</div>';
   document.getElementById('wheelMount').append(drawWheel(planets,aspects,axes));
 }
 document.getElementById('calcBtn').addEventListener('click',async function(){
