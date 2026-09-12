@@ -354,6 +354,90 @@ header p{margin-top:2px;text-transform:uppercase;letter-spacing:2.2px;font-size:
   .aspect-key{font-size:10px;gap:7px 10px}
 }
 
+
+/* ============ NATAL INPUT · KEEP ORIGINAL LOOK ============ */
+#panel-natal .natal-input-card{
+  max-width:560px;
+  margin:0 auto 18px;
+  padding:24px;
+  background:linear-gradient(160deg,var(--card),var(--bg2));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:none;
+}
+#panel-natal .natal-input-card h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;
+  font-weight:600;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+#panel-natal .natal-input-card .sub{
+  color:var(--dim);
+  font-size:13px;
+  margin-bottom:18px;
+}
+#panel-natal .natal-input-card .field{margin-bottom:16px}
+#panel-natal .natal-input-card .field label{
+  display:block;
+  font-size:13px;
+  color:var(--dim);
+  margin-bottom:6px;
+  font-weight:500;
+}
+#panel-natal .natal-input-card .field input{
+  width:100%;
+  padding:14px 16px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:var(--text);
+  font-family:inherit;
+  font-size:15px;
+  transition:.2s;
+}
+#panel-natal .natal-input-card .field input:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(179,136,255,.15);
+}
+#panel-natal .natal-input-card .field select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--accent);
+  border-radius:10px;
+  background:var(--bg);
+  color:var(--text);
+  font:inherit;
+  font-size:13px;
+}
+#panel-natal .natal-input-card .btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  transition:.25s;
+}
+#panel-natal .natal-input-card .btn-primary{
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:#fff;
+  box-shadow:0 4px 20px rgba(156,100,240,.35);
+}
+#panel-natal #results{
+  width:100%;
+  margin-top:30px;
+}
+@media(max-width:620px){
+  #panel-natal .natal-input-card{
+    max-width:560px;
+    padding:24px;
+  }
+}
+
 </style>
   <meta property="og:image" content="https://bolt.new/static/og_default.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -377,7 +461,7 @@ header p{margin-top:2px;text-transform:uppercase;letter-spacing:2.2px;font-size:
 
   <!-- TAB 1: NATAL -->
   <div class="panel active" id="panel-natal">
-    <div class="card">
+    <div class="card natal-input-card">
       <h2>Натальная карта</h2>
       <p class="sub">Ваш небесный портрет: планеты, лунные узлы, дома, аспекты и подробные трактовки.</p>
       <div class="field">
@@ -422,8 +506,8 @@ header p{margin-top:2px;text-transform:uppercase;letter-spacing:2.2px;font-size:
         <p class="chart-note">Северная широта и восточная долгота — положительные. История перевода часов определяется по базе часовых поясов браузера; для старых дат она может быть неполной. Дома: система Плацидуса (Swiss Ephemeris).</p>
       </details>
       <button class="btn btn-primary" id="calcBtn" disabled>Загрузка эфемерид…</button>
-      <div id="results"></div>
     </div>
+    <div id="results"></div>
   </div>
 
   <!-- TAB 2: TAROT -->
