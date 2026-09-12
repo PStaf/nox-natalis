@@ -42,10 +42,12 @@ jobs:
           mkdir -p vendor
 
           emcc bridge.c \
+            upstream/swisseph/swedate.c \
             upstream/swisseph/sweph.c \
             upstream/swisseph/swephlib.c \
             upstream/swisseph/swehouse.c \
             upstream/swisseph/swecl.c \
+            upstream/swisseph/swemmoon.c \
             upstream/swisseph/swemplan.c \
             upstream/swisseph/swejpl.c \
             -Iupstream/swisseph \
