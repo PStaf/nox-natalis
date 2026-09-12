@@ -750,7 +750,7 @@ function anglesAndHouses(swe,date,latitude,longitude){
   if(Math.abs(latitude)>=66.5)throw new Error('Система Плацидуса математически не определена вблизи и за полярным кругом. Для такого места рождения нужна другая система домов.');
   var jd=swissJD(swe,date);
   var h=swe.houses(jd,latitude,longitude,'P');
-  var cusps=Array.from(h.cusps).slice(1,13).map(norm);
+  var cusps=Array.from(h.cusps).map(norm);
   var ascmc=Array.from(h.ascmc);
   if(cusps.length!==12||cusps.some(function(v){return !Number.isFinite(v)}))throw new Error('Swiss Ephemeris не смог рассчитать дома Плацидуса для этих координат.');
   var asc=norm(ascmc[0]),mc=norm(ascmc[1]);
